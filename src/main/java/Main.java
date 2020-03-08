@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Fill in correct filename here
-        Scanner s = new Scanner(new File("file.txt"));
+        Scanner s = new Scanner(new File("postdocsT2.txt"));
 
 
         ArrayList<String> refNumbers = new ArrayList();
@@ -28,10 +28,14 @@ public class Main {
         //Fill in username and password here
         String username = "xxx";
         String password = "xxx";
-
+        System.out.println("Hit");
         ChromeDriver browser = new ChromeDriver();
+        System.out.println("Hit2");
         ChromeOptions options = new ChromeOptions();
+        System.out.println("Hit3");
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+
+        System.out.println("Hit4");
         options.setHeadless(false);
         browser.get("http://login.reachmee.com/chalmers/?V8");
 
@@ -77,7 +81,7 @@ public class Main {
     public static void printResults() throws IOException {
 
         // Fill in output filename here
-        PrintWriter pw = new PrintWriter(new FileOutputStream("File_answers.txt"));
+        PrintWriter pw = new PrintWriter(new FileOutputStream("postdocsT2_result.txt"));
         for (int i = 0; i < refNumberArrayList.size(); i++) {
             pw.println(refNumberArrayList.get(i));
         }
@@ -153,16 +157,16 @@ public class Main {
 
                 try {
                     WebElement questionField = new WebDriverWait(browser, 1).
-                            //until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what university did you obtain your most relevant Masters’ degree?')]")));
-                            until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what university did you obtain your PhD degree?')]")));
+                            //until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what university did (or will) you obtain your most relevant Masters’ degree?')]")));
+                            until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what university did (or will) you obtain your PhD degree?')]")));
 
                     String question = questionField.getText();
                     System.out.println("Question 1 is " + question);
 
                     try {
                         WebElement answerField = new WebDriverWait(browser, 1).
-                                //until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what university did you obtain your most relevant Masters’ degree?')]/following-sibling::table/tbody/tr/td/img[@src='../images/radiobutton_on.gif']//parent::td//following-sibling::td[text()]")));
-                                until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what university did you obtain your PhD degree?')]/following-sibling::table/tbody/tr/td/img[@src='../images/radiobutton_on.gif']//parent::td//following-sibling::td[text()]")));
+                                //until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what university did (or will) you obtain your most relevant Masters’ degree?')]/following-sibling::table/tbody/tr/td/img[@src='../images/radiobutton_on.gif']//parent::td//following-sibling::td[text()]")));
+                                until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what university did (or will) you obtain your PhD degree?')]/following-sibling::table/tbody/tr/td/img[@src='../images/radiobutton_on.gif']//parent::td//following-sibling::td[text()]")));
                         String answer = answerField.getText();
                         System.out.println("Answer is " + answer);
                         refNumberArrayList.add(department + "\t" + refId + "\t" + i + "\t" + answer);
@@ -177,18 +181,18 @@ public class Main {
                         WebElement questionTwoField = new WebDriverWait(browser, 1).
 
                                 // Enable below row for PhD student positions
-                                until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what University did you take your Master')]")));
+                                //until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(text(), 'At what University did you take your Master')]")));
 
                                 // Enable below row for Postdoc positions
-                               // until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'at what university did you earn your phd degree?')]")));
+                                until(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'at what university did you earn your phd degree?')]")));
                         String question = questionTwoField.getText();
                         System.out.println("Question 2 is " + question);
                         try {
                             // Enable below row for PhD student positions
-                            WebElement answerField = questionTwoField.findElement(By.xpath("//p[contains(text(), 'At what University did you take your Master')]//following-sibling::div"));
+                            //WebElement answerField = questionTwoField.findElement(By.xpath("//p[contains(text(), 'At what University did you take your Master')]//following-sibling::div"));
 
                             // Enable below row for Postdoc positions
-                            // WebElement answerField = questionTwoField.findElement(By.xpath("//p[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'at what university did you earn your phd degree?')]//following-sibling::div"));
+                              WebElement answerField = questionTwoField.findElement(By.xpath("//p[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'at what university did you earn your phd degree?')]//following-sibling::div"));
 
                             String answer = "FRITEXT - " + answerField.getText();
                             if(answer.equals("")){
